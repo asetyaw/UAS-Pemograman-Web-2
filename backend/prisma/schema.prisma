@@ -1,0 +1,54 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum QuestStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+
+  @@map("quest_status")
+}
+
+model User {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name            String   @db.VarChar(100)
+  email           String   @unique @db.VarChar(255)
+  passwordHash    String   @map("password_hash")
+  bio             String?
+  reputationScore Int      @default(0) @map("reputation_score")
+  createdAt       DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  questsGiven     Quest[]  @relation("GiverQuests")
+  questsAccepted  Quest[]  @relation("AdventurerQuests")
+
+  @@map("users")
+}
+
+model Quest {
+  id           String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title        String      @db.VarChar(150)
+  description  String?
+  category     String?     @db.VarChar(50)
+  rewardAmount Decimal     @map("reward_amount") @db.Decimal(12, 2)
+  location     String?     @db.VarChar(150)
+  status       QuestStatus @default(OPEN)
+  giverId      String      @map("giver_id") @db.Uuid
+  adventurerId String?     @map("adventurer_id") @db.Uuid
+  createdAt    DateTime    @default(now()) @map("created_at") @db.Timestamptz
+  completedAt  DateTime?   @map("completed_at") @db.Timestamptz
+
+  giver        User        @relation("GiverQuests", fields: [giverId], references: [id])
+  adventurer   User?       @relation("AdventurerQuests", fields: [adventurerId], references: [id])
+
+  @@index([status], map: "idx_quests_status")
+  @@index([giverId], map: "idx_quests_giver")
+  @@index([adventurerId], map: "idx_quests_adventurer")
+  @@map("quests")
+}
