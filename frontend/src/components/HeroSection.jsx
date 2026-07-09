@@ -62,7 +62,7 @@ export default function HeroSection() {
 
                 </h1>
 
-                <p className="text-white/80">
+                <p className="text-amber-50/90 font-medium">
 
                   Find quests, earn rewards, build your reputation.
 
@@ -72,7 +72,7 @@ export default function HeroSection() {
 
             </div>
 
-            <p className="max-w-2xl text-lg text-white/90">
+            <p className="max-w-2xl text-lg text-amber-50/90 font-medium">
 
               Every quest is a new adventure.
               Complete missions, gain reputation,
@@ -86,7 +86,7 @@ export default function HeroSection() {
 
             <Button
               size="lg"
-              className="bg-white text-amber-600 hover:bg-slate-100 rounded-xl"
+              className="bg-background text-amber-600 hover:bg-slate-100 rounded-xl"
             >
               <Plus className="mr-2 h-5 w-5" />
 
@@ -108,12 +108,12 @@ export default function HeroSection() {
 
             <div
               key={stat.title}
-              className="rounded-2xl bg-white p-6 shadow-lg"
+              className="rounded-2xl bg-card text-card-foreground border border-border p-4 shadow-lg"
             >
 
               <div className="flex justify-between items-center mb-6">
 
-                <div className="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
 
                   {stat.icon}
 
@@ -121,13 +121,13 @@ export default function HeroSection() {
 
               </div>
 
-              <h2 className="text-3xl font-black text-slate-800">
+              <h2 className="text-3xl font-black text-muted-foreground">
 
                 {stat.value}
 
               </h2>
 
-              <p className="text-slate-500 mt-2">
+              <p className="text-muted-foreground mt-2">
 
                 {stat.title}
 

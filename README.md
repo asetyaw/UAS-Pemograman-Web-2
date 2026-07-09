@@ -4,7 +4,7 @@
 
 ## Deskripsi
 
-**Quest** adalah aplikasi marketplace untuk pekerjaan sekali selesai (*one-time tasks*) yang mengadopsi konsep **Role Playing Game (RPG)**.
+**Quest** adalah aplikasi marketplace/E-Commerce untuk pekerjaan sekali selesai (*one-time tasks*) yang mengadopsi konsep **Role Playing Game (RPG)**.
 
 Alih-alih menampilkan pekerjaan sebagai "job", Quest menghadirkan pengalaman seperti seorang petualang (*Adventurer*) yang mengambil misi dari sebuah **Guild Hall**.
 
@@ -23,6 +23,118 @@ Contoh Quest:
 * Membuat website sederhana
 
 Semua pekerjaan diperlakukan sebagai sebuah **Quest**.
+
+---
+
+# Panduan Menjalankan Project
+
+## 1. Clone Repository
+
+```bash
+git clone <https://github.com/asetyaw/UAS-Pemograman-Web-2.git>
+cd Quest
+```
+
+---
+
+## 2. Menjalankan Backend
+
+Masuk ke folder backend.
+
+```bash
+cd backend
+```
+
+Install seluruh dependency.
+
+```bash
+npm install
+```
+
+Buat file `.env` dan sesuaikan konfigurasi database PostgreSQL (Supabase).
+
+Contoh:
+
+```env
+DATABASE_URL="postgresql://username:password@host:5432/database"
+PORT=5000
+```
+
+Lakukan generate Prisma Client.
+
+```bash
+npx prisma generate
+```
+
+Apabila database belum memiliki tabel, jalankan migrasi.
+
+```bash
+npx prisma migrate deploy
+```
+
+atau
+
+```bash
+npx prisma migrate dev
+```
+
+Jalankan backend.
+
+```bash
+npm run dev
+```
+
+Backend akan berjalan pada:
+
+```
+http://localhost:5000
+```
+
+---
+
+## 3. Menjalankan Frontend
+
+Buka terminal baru.
+
+Masuk ke folder frontend.
+
+```bash
+cd frontend
+```
+
+Install dependency.
+
+```bash
+npm install
+```
+
+Jalankan React.
+
+```bash
+npm run dev
+```
+
+Frontend akan berjalan pada:
+
+```
+http://localhost:5173
+```
+
+---
+
+## 4. Login Demo
+
+Untuk mempermudah pengujian aplikasi, akun demo dapat dibuat melalui halaman **Register**, kemudian digunakan untuk login.
+
+(note* tampilan utama ketika di clone pasti diarahkan ke http://localhost:5173/, lakukan register terlebih dahulu dengan klik tombol logout, (untuk mencoba semua fitur diperlukan akun yang terdaftar di database))
+
+Setelah login, pengguna dapat:
+
+- Melihat Guild Hall
+- Membuat Quest
+- Menerima Quest
+- Melihat My Quests
+- Mengubah tema Light/Dark
 
 ---
 
@@ -299,7 +411,6 @@ Beberapa fitur berikut belum diimplementasikan karena berada di luar ruang lingk
 
 * JWT Authentication
 * Role Authorization
-* Quest Acceptance
 * Payment
 * Escrow
 * Chat

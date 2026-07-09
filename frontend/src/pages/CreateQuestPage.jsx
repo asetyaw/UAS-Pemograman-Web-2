@@ -58,7 +58,7 @@ export default function CreateQuestPage() {
 
     <form
       onSubmit={submit}
-      className="bg-white rounded-xl shadow p-8 space-y-5"
+      className="bg-background rounded-xl shadow p-8 space-y-5"
     >
 
       <h1 className="text-3xl font-bold">
@@ -111,7 +111,7 @@ export default function CreateQuestPage() {
 
       <button
         disabled={createMutation.isPending}
-        className="bg-amber-500 text-white rounded-xl px-6 py-3"
+        className="bg-amber-500 text-muted rounded-xl px-6 py-3"
       >
         {createMutation.isPending
           ? "Publishing..."

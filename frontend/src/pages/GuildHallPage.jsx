@@ -56,8 +56,8 @@ export default function GuildHallPage() {
             onClick={() => setStatus(item)}
             className={
               status === item
-                ? "px-4 py-2 rounded-full bg-amber-500 text-white"
-                : "px-4 py-2 rounded-full bg-white border"
+                ? "px-4 py-2 rounded-full bg-amber-500 text-muted"
+                : "px-4 py-2 rounded-full bg-background border"
             }
           >
 

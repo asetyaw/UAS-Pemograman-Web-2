@@ -61,13 +61,13 @@ export default function RegisterPage() {
 
     return(
 
-        <div className="min-h-screen flex items-center justify-center bg-slate-100">
+        <div className="min-h-screen flex items-center justify-center bg-background">
 
             <form
 
                 onSubmit={handleSubmit}
 
-                className="bg-white rounded-2xl shadow-xl w-full max-w-md p-8 space-y-5">
+                className="bg-muted rounded-2xl shadow-xl w-full max-w-md p-8 space-y-5">
 
                 <div className="text-center">
 

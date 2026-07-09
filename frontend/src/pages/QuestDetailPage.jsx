@@ -64,7 +64,7 @@ export default function QuestDetailPage() {
 
             <div>
 
-              <h1 className="text-4xl font-black text-slate-900">
+              <h1 className="text-4xl font-black text-foreground">
                 {quest.title}
               </h1>
 

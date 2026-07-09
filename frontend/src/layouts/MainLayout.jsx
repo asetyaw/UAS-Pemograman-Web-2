@@ -3,7 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 
 export default function MainLayout() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-slate-100">
+    <div className="min-h-screen bg-background text-foreground">
 
       <Navbar />
 

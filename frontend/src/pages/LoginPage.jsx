@@ -35,11 +35,11 @@ function handleSubmit(e) {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-100">
+    <div className="min-h-screen flex items-center justify-center bg-background">
 
       <form
         onSubmit={handleSubmit}
-        className="bg-white w-full max-w-md rounded-2xl shadow-xl p-8 space-y-6">
+        className="bg-muted w-full max-w-md rounded-2xl shadow-xl p-8 space-y-6">
 
         <div className="text-center">
 

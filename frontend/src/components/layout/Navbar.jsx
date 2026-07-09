@@ -7,6 +7,8 @@ import {
   User,
   LogOut,
   Star,
+  Moon,
+  Sun,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -16,10 +18,14 @@ import {
   logout,
 } from "@/utils/auth";
 
+import { useTheme } from "@/context/ThemeContext";
+
 export default function Navbar() {
   const navigate = useNavigate();
 
   const user = getUser();
+
+  const { theme, toggleTheme } = useTheme();
 
   function handleLogout() {
     logout();
@@ -30,12 +36,12 @@ export default function Navbar() {
     `flex items-center gap-2 px-4 py-2 rounded-xl transition-all
     ${
       isActive
-        ? "bg-amber-500 text-white shadow"
-        : "text-slate-600 hover:bg-slate-100"
+        ? "bg-amber-500 text-foreground shadow"
+        : "text-foreground hover:bg-muted"
     }`;
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b">
+    <header className="sticky top-0 z-50 bg-background backdrop-blur border-b">
 
       <div className="max-w-7xl mx-auto h-20 px-6 flex justify-between items-center">
 
@@ -111,6 +117,29 @@ export default function Navbar() {
         {/* RIGHT */}
 
         <div className="flex items-center gap-5">
+
+            <button
+                onClick={toggleTheme}
+                className="
+                    flex
+                    items-center
+                    justify-center
+                    w-10
+                    h-10
+                    rounded-xl
+                    border
+                    border-border
+                    bg-card
+                    text-foreground
+                    hover:bg-accent
+                    transition
+                "
+            >
+                {theme === "light"
+                    ? <Moon size={18}/>
+                    : <Sun size={18}/>
+                }
+            </button>
 
           <div className="text-right">
 
