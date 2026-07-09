@@ -22,3 +22,11 @@ export async function acceptQuest(id, adventurerId) {
 
   return response.data.data;
 }
+
+export async function completeQuest(id) {
+  const response = await api.patch(
+    `/quests/${id}/complete`
+  );
+
+  return response.data.data;
+}

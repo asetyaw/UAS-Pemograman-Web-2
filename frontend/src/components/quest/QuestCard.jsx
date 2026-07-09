@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+
 import {
   MapPin,
   Coins,
@@ -19,104 +20,79 @@ export default function QuestCard({ quest }) {
   return (
     <Card
       onClick={() => navigate(`/quests/${quest.id}`)}
-      className="group cursor-pointer rounded-2xl border-0 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+      className="group cursor-pointer rounded-2xl border-0 shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
     >
+      <div className="h-2 bg-gradient-to-r from-amber-500 to-orange-500" />
 
-      <CardContent className="p-6 space-y-5">
+      <CardContent className="p-6">
 
-        {/* Header */}
+        <div className="flex justify-between items-start mb-5">
 
-        <div className="flex justify-between items-start gap-4">
-
-          <div>
-
-            <h2 className="text-xl font-bold text-slate-900 line-clamp-2">
-
-              {quest.title}
-
-            </h2>
-
-            <p className="text-sm text-slate-500 mt-1">
-
-              {quest.category}
-
-            </p>
-
-          </div>
+          <h2 className="text-xl font-bold group-hover:text-amber-600 transition">
+            {quest.title}
+          </h2>
 
           <QuestStatusBadge status={quest.status} />
 
         </div>
 
-        {/* Description */}
-
-        <p className="text-slate-600 text-sm leading-6 line-clamp-3">
-
+        <p className="text-slate-500 line-clamp-3 mb-6">
           {quest.description}
-
         </p>
 
-        {/* Reward */}
+        <div className="space-y-3">
 
-        <div className="rounded-xl bg-amber-50 border border-amber-100 p-4">
+          <div className="flex items-center gap-3 text-slate-600">
 
-          <div className="flex items-center gap-2 text-amber-700">
+            <Coins
+              size={18}
+              className="text-green-600"
+            />
 
-            <Coins size={18} />
-
-            <span className="text-sm font-medium">
-
-              Reward
-
+            <span className="font-semibold">
+              {new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                maximumFractionDigits: 0,
+              }).format(quest.rewardAmount)}
             </span>
 
           </div>
 
-          <h3 className="text-2xl font-black mt-2 text-amber-600">
+          <div className="flex items-center gap-3 text-slate-600">
 
-            {new Intl.NumberFormat("id-ID", {
-              style: "currency",
-              currency: "IDR",
-              maximumFractionDigits: 0,
-            }).format(quest.rewardAmount)}
+            <MapPin
+              size={18}
+              className="text-red-500"
+            />
 
-          </h3>
-
-        </div>
-
-        {/* Footer */}
-
-        <div className="space-y-3">
-
-          <div className="flex items-center gap-2 text-sm text-slate-600">
-
-            <MapPin size={16} />
-
-            {quest.location}
+            <span>{quest.location}</span>
 
           </div>
 
-          <div className="flex items-center gap-2 text-sm text-slate-600">
+          <div className="flex items-center gap-3 text-slate-600">
 
-            <User size={16} />
+            <User
+              size={18}
+              className="text-blue-500"
+            />
 
-            {quest.giver.name}
+            <span>{quest.giver.name}</span>
 
           </div>
 
         </div>
 
-        <div className="pt-2 border-t flex justify-end">
+        <div className="mt-8 pt-5 border-t flex justify-between items-center">
 
-          <button
-            className="flex items-center gap-2 text-amber-600 font-semibold group-hover:gap-3 transition-all"
-          >
+          <span className="text-sm text-slate-400">
+            View Quest Details
+          </span>
 
-            View Details
-
-            <ArrowRight size={18} />
-
-          </button>
+          <ArrowRight
+            className="group-hover:translate-x-1 transition"
+            size={20}
+          />
 
         </div>
 

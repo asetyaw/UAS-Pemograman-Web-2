@@ -1,6 +1,11 @@
-import { getQuests, getQuestById, createQuest as addQuestToDb } from "../services/quest.service.js";
+import { 
+  getQuests, getQuestById, 
+  createQuest as addQuestToDb, 
+  acceptQuest as acceptQuestService, 
+  completeQuest as completeQuestService
+} from "../services/quest.service.js";
+
 import { successResponse, errorResponse } from "../utils/response.js";
-import { acceptQuest as acceptQuestService } from "../services/quest.service.js";
 
 export async function getAllQuests(req, res) {
   try {
@@ -62,5 +67,26 @@ export async function acceptQuest(req, res) {
   } catch (error) {
     console.error(error);
     return errorResponse(res, "Failed to accept quest.");
+  }
+}
+
+export async function completeQuest(req, res) {
+  try {
+    const { id } = req.params;
+
+    const quest = await completeQuestService(id);
+
+    return successResponse(
+      res,
+      "Quest completed successfully.",
+      quest
+    );
+  } catch (error) {
+    console.error(error);
+
+    return errorResponse(
+      res,
+      "Failed to complete quest."
+    );
   }
 }

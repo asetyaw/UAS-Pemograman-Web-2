@@ -8,13 +8,27 @@ import {
 } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
 import QuestStatusBadge from "@/components/quest/QuestStatusBadge";
-import { useQuest } from "@/hooks/useQuest";
+
+import {
+  useQuest,
+  useAcceptQuest,
+  useCompleteQuest,
+} from "@/hooks/useQuest";
+
+import { getUser } from "@/utils/auth";
 
 export default function QuestDetailPage() {
   const { id } = useParams();
 
   const { data: quest, isLoading } = useQuest(id);
+
+  const user = getUser();
+
+  const { mutate: acceptQuest } = useAcceptQuest();
+  const { mutate: completeQuest } = useCompleteQuest();
 
   if (isLoading) {
     return (
@@ -32,6 +46,11 @@ export default function QuestDetailPage() {
     );
   }
 
+  const isOwner = user?.id === quest.giverId;
+
+  const isAdventurer =
+    user?.id === quest.adventurerId;
+
   return (
     <div className="grid lg:grid-cols-3 gap-8">
 
@@ -46,15 +65,11 @@ export default function QuestDetailPage() {
             <div>
 
               <h1 className="text-4xl font-black text-slate-900">
-
                 {quest.title}
-
               </h1>
 
               <p className="text-slate-500 mt-2">
-
                 {quest.category}
-
               </p>
 
             </div>
@@ -66,15 +81,11 @@ export default function QuestDetailPage() {
           <div className="mt-10">
 
             <h2 className="text-xl font-bold mb-4">
-
               Description
-
             </h2>
 
             <p className="leading-8 text-slate-600 whitespace-pre-wrap">
-
               {quest.description}
-
             </p>
 
           </div>
@@ -92,9 +103,7 @@ export default function QuestDetailPage() {
           <div>
 
             <p className="text-sm text-slate-500">
-
               Reward
-
             </p>
 
             <div className="flex items-center gap-2 mt-2">
@@ -169,13 +178,82 @@ export default function QuestDetailPage() {
 
           </div>
 
-          <button
-            className="w-full mt-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-white py-3 font-semibold transition"
-          >
+          {/* BUTTON */}
 
-            Accept Quest
+          {quest.status === "OPEN" && !isOwner && (
 
-          </button>
+            <Button
+              className="w-full mt-4"
+              onClick={() =>
+                acceptQuest({
+                  id: quest.id,
+                  adventurerId: user.id,
+                })
+              }
+            >
+
+              Accept Quest
+
+            </Button>
+
+          )}
+
+          {quest.status === "OPEN" && isOwner && (
+
+            <Button
+              disabled
+              variant="secondary"
+              className="w-full mt-4"
+            >
+
+              Waiting for Adventurer
+
+            </Button>
+
+          )}
+
+          {quest.status === "IN_PROGRESS" && isAdventurer && (
+
+            <Button
+              className="w-full mt-4"
+              onClick={() =>
+                completeQuest(quest.id)
+              }
+            >
+
+              Complete Quest
+
+            </Button>
+
+          )}
+
+          {quest.status === "IN_PROGRESS" && !isAdventurer && (
+
+            <Button
+              disabled
+              variant="secondary"
+              className="w-full mt-4"
+            >
+
+              Quest In Progress
+
+            </Button>
+
+          )}
+
+          {quest.status === "COMPLETED" && (
+
+            <Button
+              disabled
+              variant="secondary"
+              className="w-full mt-4"
+            >
+
+              Quest Completed
+
+            </Button>
+
+          )}
 
         </Card>
 

@@ -60,3 +60,19 @@ export async function acceptQuest(id, adventurerId) {
     },
   });
 }
+
+export async function completeQuest(id) {
+  return prisma.quest.update({
+    where: {
+      id,
+    },
+    data: {
+      status: "COMPLETED",
+      completedAt: new Date(),
+    },
+    include: {
+      giver: true,
+      adventurer: true,
+    },
+  });
+}

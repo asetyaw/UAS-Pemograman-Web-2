@@ -1,13 +1,20 @@
 import { NavLink, useNavigate } from "react-router-dom";
+
 import {
   Sword,
   ScrollText,
   PlusCircle,
-  Briefcase,
+  User,
   LogOut,
+  Star,
 } from "lucide-react";
 
-import { getUser, logout } from "@/utils/auth";
+import { Button } from "@/components/ui/button";
+
+import {
+  getUser,
+  logout,
+} from "@/utils/auth";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -20,37 +27,61 @@ export default function Navbar() {
   }
 
   const linkClass = ({ isActive }) =>
-    `px-4 py-2 rounded-xl transition-all duration-200 flex items-center gap-2 ${
+    `flex items-center gap-2 px-4 py-2 rounded-xl transition-all
+    ${
       isActive
         ? "bg-amber-500 text-white shadow"
         : "text-slate-600 hover:bg-slate-100"
     }`;
 
   return (
-    <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b">
 
-      <div className="max-w-7xl mx-auto h-16 px-6 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto h-20 px-6 flex justify-between items-center">
+
+        {/* LEFT */}
 
         <div className="flex items-center gap-10">
 
-          <div className="flex items-center gap-2">
+          <div
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={() => navigate("/")}
+          >
 
-            <Sword className="text-amber-500" />
+            <div className="bg-amber-500 text-white p-3 rounded-xl">
 
-            <h1 className="font-black text-2xl tracking-wide">
-              QUEST
-            </h1>
+              <Sword size={22} />
+
+            </div>
+
+            <div>
+
+              <h1 className="font-black text-2xl">
+
+                QUEST
+
+              </h1>
+
+              <p className="text-xs text-slate-500">
+
+                Guild Marketplace
+
+              </p>
+
+            </div>
 
           </div>
 
-          <nav className="flex gap-2">
+          <nav className="flex gap-3">
 
             <NavLink
               to="/"
               className={linkClass}
             >
               <ScrollText size={18} />
+
               Guild Hall
+
             </NavLink>
 
             <NavLink
@@ -58,41 +89,61 @@ export default function Navbar() {
               className={linkClass}
             >
               <PlusCircle size={18} />
+
               Create Quest
+
             </NavLink>
 
             <NavLink
               to="/my-quests"
               className={linkClass}
             >
-              <Briefcase size={18} />
+              <Sword size={18} />
+
               My Quests
+
             </NavLink>
 
           </nav>
 
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* RIGHT */}
+
+        <div className="flex items-center gap-5">
 
           <div className="text-right">
 
-            <h2 className="font-semibold">
-              {user?.name}
-            </h2>
+            <p className="font-bold">
 
-            <p className="text-xs text-slate-500">
-              Adventurer
+              {user?.name}
+
             </p>
+
+            <div className="flex items-center justify-end gap-1 text-amber-600 text-sm">
+
+              <Star size={14} fill="currentColor" />
+
+              Reputation {user?.reputationScore ?? 0}
+
+            </div>
 
           </div>
 
-          <button
+          <div className="w-12 h-12 rounded-full bg-amber-500 text-white flex items-center justify-center font-bold text-lg">
+
+            {user?.name?.charAt(0)}
+
+          </div>
+
+          <Button
+            variant="outline"
             onClick={handleLogout}
-            className="rounded-xl bg-red-50 hover:bg-red-100 text-red-600 p-3 transition"
           >
-            <LogOut size={18}/>
-          </button>
+
+            <LogOut size={18} />
+
+          </Button>
 
         </div>
 
