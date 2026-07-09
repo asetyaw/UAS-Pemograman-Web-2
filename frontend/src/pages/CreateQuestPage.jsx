@@ -1,78 +1,123 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+
 import { getUser } from "@/utils/auth";
-export default function CreateQuestPage(){
+import { useCreateQuest } from "@/hooks/useCreateQuest";
 
-    const user = getUser();
+export default function CreateQuestPage() {
 
-    function submit(e){
+  const navigate = useNavigate();
 
-        e.preventDefault();
+  const user = getUser();
 
-        toast.success("Quest Published!");
+  const createMutation = useCreateQuest();
 
-    }
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    category: "",
+    rewardAmount: "",
+    location: "",
+  });
 
-    return(
+  function handleChange(e) {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  }
 
-        <form
-            onSubmit={submit}
-            className="bg-white rounded-xl shadow p-8 space-y-5">
+  function submit(e) {
+    e.preventDefault();
 
-            <h1 className="text-3xl font-bold">
+    createMutation.mutate(
+      {
+        ...form,
+        rewardAmount: Number(form.rewardAmount),
+        giverId: user.id,
+      },
+      {
+        onSuccess() {
+          toast.success("Quest Published!");
 
-                Create New Quest
+          navigate("/");
+        },
 
-            </h1>
+        onError(error) {
+          toast.error(
+            error.response?.data?.message ??
+            "Failed to publish quest."
+          );
+        },
+      }
+    );
+  }
 
-            <input
-                placeholder="Quest Title"
-                className="border rounded-xl p-3 w-full"
-            />
+  return (
 
-            <textarea
+    <form
+      onSubmit={submit}
+      className="bg-white rounded-xl shadow p-8 space-y-5"
+    >
 
-                rows="5"
+      <h1 className="text-3xl font-bold">
 
-                placeholder="Description"
+        Create New Quest
 
-                className="border rounded-xl p-3 w-full"
+      </h1>
 
-            />
+      <input
+        name="title"
+        value={form.title}
+        onChange={handleChange}
+        placeholder="Quest Title"
+        className="border rounded-xl p-3 w-full"
+      />
 
-            <input
+      <textarea
+        name="description"
+        value={form.description}
+        onChange={handleChange}
+        rows="5"
+        placeholder="Description"
+        className="border rounded-xl p-3 w-full"
+      />
 
-                placeholder="Category"
+      <input
+        name="category"
+        value={form.category}
+        onChange={handleChange}
+        placeholder="Category"
+        className="border rounded-xl p-3 w-full"
+      />
 
-                className="border rounded-xl p-3 w-full"
+      <input
+        name="rewardAmount"
+        value={form.rewardAmount}
+        onChange={handleChange}
+        placeholder="Reward"
+        type="number"
+        className="border rounded-xl p-3 w-full"
+      />
 
-            />
+      <input
+        name="location"
+        value={form.location}
+        onChange={handleChange}
+        placeholder="Location"
+        className="border rounded-xl p-3 w-full"
+      />
 
-            <input
+      <button
+        disabled={createMutation.isPending}
+        className="bg-amber-500 text-white rounded-xl px-6 py-3"
+      >
+        {createMutation.isPending
+          ? "Publishing..."
+          : "Publish Quest"}
+      </button>
 
-                placeholder="Reward"
-
-                className="border rounded-xl p-3 w-full"
-
-            />
-
-            <input
-
-                placeholder="Location"
-
-                className="border rounded-xl p-3 w-full"
-
-            />
-
-            <button
-
-                className="bg-amber-500 text-white rounded-xl px-6 py-3">
-
-                Publish Quest
-
-            </button>
-
-        </form>
-
-    )
-
+    </form>
+  );
 }

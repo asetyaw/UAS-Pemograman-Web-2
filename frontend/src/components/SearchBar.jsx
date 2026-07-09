@@ -1,26 +1,31 @@
 import { Search } from "lucide-react";
 
-export default function SearchBar() {
+export default function SearchBar({
 
-    return (
+  value,
 
-        <div className="relative">
+  onChange,
 
-            <Search
-                className="absolute left-4 top-4 text-slate-400"
-                size={18}
-            />
+}) {
 
-            <input
+  return (
 
-                className="w-full rounded-xl border bg-white py-3 pl-11 pr-4 outline-none focus:ring-2 focus:ring-amber-400"
+    <div className="relative">
 
-                placeholder="Search your next quest..."
+      <Search
+        className="absolute left-4 top-4 text-slate-400"
+        size={18}
+      />
 
-            />
+      <input
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className="w-full rounded-xl border bg-white py-3 pl-11 pr-4 outline-none focus:ring-2 focus:ring-amber-400"
+        placeholder="Search your next quest..."
+      />
 
-        </div>
+    </div>
 
-    );
+  );
 
 }

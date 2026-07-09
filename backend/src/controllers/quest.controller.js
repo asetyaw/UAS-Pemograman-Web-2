@@ -1,5 +1,6 @@
 import { getQuests, getQuestById, createQuest as addQuestToDb } from "../services/quest.service.js";
 import { successResponse, errorResponse } from "../utils/response.js";
+import { acceptQuest as acceptQuestService } from "../services/quest.service.js";
 
 export async function getAllQuests(req, res) {
   try {
@@ -10,12 +11,12 @@ export async function getAllQuests(req, res) {
       quests
     );
   } catch (error) {
-    console.error(error);
+      console.error(error);
 
-    return errorResponse(
-      res,
-      "Failed to fetch quests."
-    );
+      return res.status(500).json({
+          error: error.message,
+          stack: error.stack,
+      });
   }
 }
 
@@ -43,5 +44,23 @@ export async function createQuest(req, res) {
   } catch (error) {
     console.error(error);
     return errorResponse(res, "Failed to create quest.");
+  }
+}
+
+export async function acceptQuest(req, res) {
+  try {
+    const { id } = req.params;
+    const { adventurerId } = req.body;
+
+    const quest = await acceptQuestService(id, adventurerId);
+
+    return successResponse(
+      res,
+      "Quest accepted successfully.",
+      quest
+    );
+  } catch (error) {
+    console.error(error);
+    return errorResponse(res, "Failed to accept quest.");
   }
 }

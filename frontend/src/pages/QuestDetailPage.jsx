@@ -1,64 +1,185 @@
-import { Coins, MapPin, User } from "lucide-react";
 import { useParams } from "react-router-dom";
-import { useQuests } from "@/hooks/useQuest";
-import toast from "react-hot-toast";
+import {
+  Coins,
+  MapPin,
+  User,
+  Folder,
+  CalendarDays,
+} from "lucide-react";
+
+import { Card } from "@/components/ui/card";
+import QuestStatusBadge from "@/components/quest/QuestStatusBadge";
+import { useQuest } from "@/hooks/useQuest";
 
 export default function QuestDetailPage() {
   const { id } = useParams();
-  const { data } = useQuests();
 
-  const quest = data?.data?.find((q) => q.id === id);
+  const { data: quest, isLoading } = useQuest(id);
 
-  if (!quest) return <h1>Quest not found</h1>;
+  if (isLoading) {
+    return (
+      <div className="text-center py-20">
+        Loading...
+      </div>
+    );
+  }
+
+  if (!quest) {
+    return (
+      <div className="text-center py-20">
+        Quest not found.
+      </div>
+    );
+  }
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-10 space-y-6">
+    <div className="grid lg:grid-cols-3 gap-8">
 
-      <h1 className="text-4xl font-bold">
+      {/* LEFT */}
 
-        {quest.title}
+      <div className="lg:col-span-2">
 
-      </h1>
+        <Card className="rounded-2xl shadow-md border-0 p-8">
 
-      <p className="text-slate-500">
+          <div className="flex justify-between items-start gap-4">
 
-        {quest.description}
+            <div>
 
-      </p>
+              <h1 className="text-4xl font-black text-slate-900">
 
-      <div className="flex items-center gap-2">
+                {quest.title}
 
-        <Coins size={18}/>
+              </h1>
 
-        Rp {Number(quest.rewardAmount).toLocaleString("id-ID")}
+              <p className="text-slate-500 mt-2">
+
+                {quest.category}
+
+              </p>
+
+            </div>
+
+            <QuestStatusBadge status={quest.status} />
+
+          </div>
+
+          <div className="mt-10">
+
+            <h2 className="text-xl font-bold mb-4">
+
+              Description
+
+            </h2>
+
+            <p className="leading-8 text-slate-600 whitespace-pre-wrap">
+
+              {quest.description}
+
+            </p>
+
+          </div>
+
+        </Card>
 
       </div>
 
-      <div className="flex items-center gap-2">
+      {/* RIGHT */}
 
-        <MapPin size={18}/>
+      <div>
 
-        {quest.location}
+        <Card className="rounded-2xl shadow-md border-0 p-6 space-y-6 sticky top-24">
+
+          <div>
+
+            <p className="text-sm text-slate-500">
+
+              Reward
+
+            </p>
+
+            <div className="flex items-center gap-2 mt-2">
+
+              <Coins className="text-amber-500" />
+
+              <h2 className="text-3xl font-black text-amber-600">
+
+                {new Intl.NumberFormat("id-ID", {
+                  style: "currency",
+                  currency: "IDR",
+                  maximumFractionDigits: 0,
+                }).format(quest.rewardAmount)}
+
+              </h2>
+
+            </div>
+
+          </div>
+
+          <hr />
+
+          <div className="space-y-4">
+
+            <div className="flex items-center gap-3">
+
+              <MapPin
+                size={18}
+                className="text-slate-500"
+              />
+
+              <span>{quest.location}</span>
+
+            </div>
+
+            <div className="flex items-center gap-3">
+
+              <Folder
+                size={18}
+                className="text-slate-500"
+              />
+
+              <span>{quest.category}</span>
+
+            </div>
+
+            <div className="flex items-center gap-3">
+
+              <User
+                size={18}
+                className="text-slate-500"
+              />
+
+              <span>{quest.giver.name}</span>
+
+            </div>
+
+            <div className="flex items-center gap-3">
+
+              <CalendarDays
+                size={18}
+                className="text-slate-500"
+              />
+
+              <span>
+                {new Date(
+                  quest.createdAt
+                ).toLocaleDateString("id-ID")}
+              </span>
+
+            </div>
+
+          </div>
+
+          <button
+            className="w-full mt-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-white py-3 font-semibold transition"
+          >
+
+            Accept Quest
+
+          </button>
+
+        </Card>
 
       </div>
-
-      <div className="flex items-center gap-2">
-
-        <User size={18}/>
-
-        {quest.giver.name}
-
-      </div>
-
-      <button
-
-        onClick={()=>toast.success("Quest Accepted!")}
-
-        className="bg-amber-500 text-white rounded-xl px-6 py-3">
-
-        Accept Quest
-
-      </button>
 
     </div>
   );

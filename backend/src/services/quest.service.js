@@ -37,10 +37,26 @@ export async function getQuestById(id) {
 
 export async function createQuest(data) {
   return prisma.quest.create({
-  data,
-  include: {
-    giver: true,
-    adventurer: true,
-  },
-});
+    data,
+    include: {
+      giver: true,
+      adventurer: true,
+    },
+  });
+}
+
+export async function acceptQuest(id, adventurerId) {
+  return prisma.quest.update({
+    where: {
+      id,
+    },
+    data: {
+      adventurerId,
+      status: "IN_PROGRESS",
+    },
+    include: {
+      giver: true,
+      adventurer: true,
+    },
+  });
 }

@@ -1,25 +1,20 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { createQuest } from "../services/quest.service";
 
-import toast from "react-hot-toast";
-
 export function useCreateQuest() {
-
     const queryClient = useQueryClient();
 
     return useMutation({
-
         mutationFn: createQuest,
 
         onSuccess:()=>{
+                queryClient.invalidateQueries({
+                    queryKey:["quests"]
 
-            toast.success("Quest Published!");
+            });
 
-            queryClient.invalidateQueries({
-
-                queryKey:["quests"]
-
+                queryClient.invalidateQueries({
+                    queryKey:["dashboard"]
             });
 
         }

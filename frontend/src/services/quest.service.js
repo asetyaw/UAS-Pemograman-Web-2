@@ -14,3 +14,11 @@ export async function createQuest(data) {
   const response = await api.post("/quests", data);
   return response.data.data;
 }
+
+export async function acceptQuest(id, adventurerId) {
+  const response = await api.patch(`/quests/${id}/accept`, {
+    adventurerId,
+  });
+
+  return response.data.data;
+}
