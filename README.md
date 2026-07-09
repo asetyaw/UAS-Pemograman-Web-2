@@ -78,6 +78,12 @@ atau
 npx prisma migrate dev
 ```
 
+Jalankan seeder.
+
+```bash
+npx prisma db seed
+```
+
 Jalankan backend.
 
 ```bash
