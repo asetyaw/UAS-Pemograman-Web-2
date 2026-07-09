@@ -39,52 +39,39 @@ cd Quest
 
 ## 2. Menjalankan Backend
 
-Masuk ke folder backend.
+1. Masuk ke folder backend.
 
 ```bash
 cd backend
 ```
 
-Install seluruh dependency.
+2. Install dependency.
 
 ```bash
 npm install
 ```
 
-Buat file `.env` dan sesuaikan konfigurasi database PostgreSQL (Supabase).
+3. Salin file `.env.example` menjadi `.env`, kemudian sesuaikan konfigurasi database PostgreSQL (Supabase).
 
-Contoh:
-
-```env
-DATABASE_URL="postgresql://username:password@host:5432/database"
-PORT=5000
-```
-
-Lakukan generate Prisma Client.
+4. Generate Prisma Client.
 
 ```bash
-npx prisma generate
+npm run db:generate
 ```
 
-Apabila database belum memiliki tabel, jalankan migrasi.
+5. Inisialisasi struktur database.
 
 ```bash
-npx prisma migrate deploy
+npm run db:migrate
 ```
 
-atau
+6. Isi database dengan data awal (dummy data).
 
 ```bash
-npx prisma migrate dev
+npm run db:seed
 ```
 
-Jalankan seeder.
-
-```bash
-npx prisma db seed
-```
-
-Jalankan backend.
+7. Jalankan backend.
 
 ```bash
 npm run dev
